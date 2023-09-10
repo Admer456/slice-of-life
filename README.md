@@ -7,5 +7,10 @@ The pages are split up into quarters of the year (JanFebMar, AprMayJun, JulAugSe
 
 # Index
 
-* [Elegy Engine - July-September 2023](pages/2023-q3-elegy.md)
-* [Miscellaneous - July-September 2023](pages/2023-q3-misc.md)
+* 2023
+	* [Elegy Engine - July-September 2023](pages/2023-q3-elegy.md)
+	* [Miscellaneous - July-September 2023](pages/2023-q3-misc.md)
+* 2024
+	* Nufin
+
+All of this is rather manual work, it'd be neat if I had some sorta content management thingy... d'oh well, this works fine.
