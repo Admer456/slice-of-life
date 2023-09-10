@@ -1,4 +1,6 @@
 
+### [Index](../README.md) -> Q3 2023, Elegy
+
 ## 29th of July 2023
 
 I’ve been having a lot more ideas for Elegy, regarding car destruction, lightmapped day-night cycles, and I figured out how I’d approach its UI system. Neat.
