@@ -10,6 +10,7 @@ The pages are split up into quarters of the year (JanFebMar, AprMayJun, JulAugSe
 * 2023
 	* [Elegy Engine - July-September 2023](pages/2023-q3-elegy.md)
 	* [Miscellaneous - July-September 2023](pages/2023-q3-misc.md)
+	* [Miscellaneous - October-December 2023](pages/2023-q4-misc.md)
 * 2024
 	* Nufin
 
