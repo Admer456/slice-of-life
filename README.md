@@ -13,6 +13,10 @@ The pages are split up into quarters of the year (JanFebMar, AprMayJun, JulAugSe
 	* [Miscellaneous - July-September 2023](pages/2023-q3-misc.md)
 	* [Miscellaneous - October-December 2023](pages/2023-q4-misc.md)
 * 2024
+	* [Elegy Engine - January-March 2024](pages/2024-q1-elegy.md)
+	* *Elegy Engine - April-June 2024*
+	* *Elegy Engine - July-September 2024*
+	* *Elegy Engine - October-December 2024*
 	* [Miscellaneous - January-March 2024](pages/2024-q1-misc.md)
 	* *Miscellanous - April-June 2024*
 	* *Miscellanous - July-September 2024*
