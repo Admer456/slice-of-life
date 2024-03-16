@@ -48,11 +48,17 @@ Anyway this is roughly what I wanna do for the next month:
 * make the map compiler use the engine as a library, so we don't need two separate implementations of the material & virtual filesystem
 * load levels again & fly around in em
 
-Then in March:
+Then in April:
 * make the developer console work again
 * implement CVars
 * integrate BepuPhysics
 * write a basic and decent enough player controller
 * load and play back basic animations
 
-April, May etc. are too far away to tell, but overall I'm aiming for a foundation for a basic FPS game template. At some point I'll need to answer the GUI question as well.
+May, June etc. are too far away to tell, but overall I'm aiming for a foundation for a basic FPS game template. At some point I'll need to answer the GUI question as well.
+
+## 16th of March, 2024
+
+Shader pipeline has been set up. There's now an `Elegy.ShaderTool` that outputs shader templates and compiled shader permutations.
+
+Now I gotta make the render backend & frontend play well with this, and eventually get to loading some textures and models. This is gonna be fun.
