@@ -78,3 +78,15 @@ It's pretty important to develop this external console, since we don't have a UI
 ### Conclusion
 
 It's been a massive month for Elegy and some really good changes have happened that will FINALLY let me propel it in the direction I've always wanted to. I imagine the next couple of months will be all about rendering, the map compiler and a bit of physics and the console stuff.
+
+## 8th of May, 2024
+
+`Elegy.MapCompiler` is now using the engine's filesystem and asset system! No more need to have a watered-down duplicate version. Thanks Amara!
+
+The engine now has a defined coordinate system: Z is up, Y is forward, X is right. There are also some helpful constants to make rotation easier. No more need to think in terms of XYZ, now you can just think in terms of right, forward, up, turning left, turning right etc. That's right: we kind of have "turns" instead of just degrees or radians.
+
+Finally, the renderer is kinda done. This will get rewritten soon enough but most of the render backend work is done. The shader system, material system etc. are mostly there, and we can now render textured models:
+![](img/2024_q2_elegy_render.png)
+*Oh, the glorious "missing texture" texture in the background.*
+
+Elegy is now sitting at over 600 commits which is pretty cool. Throughout May I wanna focus on the developer console and a proper "render world" API. But also I'd like to toy around with a physics engine & audio.
