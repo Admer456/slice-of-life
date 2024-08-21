@@ -19,7 +19,7 @@ The pages are split up into quarters of the year (JanFebMar, AprMayJun, JulAugSe
 	* *Elegy Engine - October-December 2024*
 	* [Miscellaneous - January-March 2024](pages/2024-q1-misc.md)
 	* [Miscellanous - April-June 2024](pages/2024-q2-misc.md)
-	* *Miscellanous - July-September 2024*
+	* [Miscellanous - July-September 2024](pages/2024-q3-misc.md)
 	* *Miscellanous - October-December 2024*
 
 All of this is rather manual work, it'd be neat if I had some sorta content management thingy... d'oh well, this works fine.
