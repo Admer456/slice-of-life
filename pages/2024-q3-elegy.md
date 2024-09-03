@@ -67,6 +67,7 @@ Some QoL ideas:
 * You should be able to put multiple type parametres into `Requires`, e.g. `[Requires<Transform, AudioSource, Mesh>]` etc.
 * A way to handle default values for custom properties, shown below.
 * More custom properties like `AudioEvent`:
+
 ```cs
 [Property( Default = "sound/doors/open1.wav" )]
 public AudioEvent OpeningSound { get; set; }
@@ -90,6 +91,7 @@ Oh and yeah, did I mention how test-friendly this whole approach is? I can test 
 ### What's next
 
 A lot. I need to write a bunch of components now, and work on the clientside presentation layer. I'd like to have a `Mesh` component which overrides some type of `RenderEvent`. I'm thinking something like this:
+
 ```cs
 [Component]
 [Requires<Transform>]
