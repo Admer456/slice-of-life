@@ -15,7 +15,7 @@ The pages are split up into quarters of the year (JanFebMar, AprMayJun, JulAugSe
 * 2024
 	* [Elegy Engine - January-March 2024](pages/2024-q1-elegy.md)
 	* [Elegy Engine - April-June 2024](pages/2024-q2-elegy.md)
-	* *Elegy Engine - July-September 2024*
+	* [Elegy Engine - July-September 2024](pages/2024-q3-elegy.md)
 	* *Elegy Engine - October-December 2024*
 	* [Miscellaneous - January-March 2024](pages/2024-q1-misc.md)
 	* [Miscellanous - April-June 2024](pages/2024-q2-misc.md)
