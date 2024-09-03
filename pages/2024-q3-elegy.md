@@ -60,7 +60,7 @@ I'm saved by a very powerful little thing called code generation. I wanted to me
 * **`Property`** - this member is a map property. Soon enough we'll also have attributes for savegames and networking: `[Property, Networked, Saved]`
 * **`Output`** - a special object that contains Source-style IO data, i.e. a list of entities to trigger and their inputs and time delays. It's initialised from the map file's entity data, with a custom parser that is outside of the ECS extension library. (via `IEntityProperty`)
 * **`Input`** - marks a method as a usable entity input event, also related to Source-style IO. This is typically the target of an output.
-* **`Event<T>`** - this method responds to entity event `T`. Entity events can be defined by any entity and called: `entity.Disptch<T>( data );`. An entity may have multiple different components that react to the same event, and this is where the beauty lies.
+* **`Event<T>`** - this method responds to entity event `T`. Entity events can be defined by any entity and called: `entity.Dispatch<T>( data );`. An entity may have multiple different components that react to the same event, and this is where the beauty lies.
 * **`GroupEvent<T>`** - this method is called when batch processing all components of a certain type: `world.Dispatch<T>( data );`. The 1st parametre is the event data, and all following parametres are the components you're going to query! And yes. Any component type can uniquely respond to these group events.
 
 Some QoL ideas:
