@@ -8,18 +8,22 @@ The pages are split up into quarters of the year (JanFebMar, AprMayJun, JulAugSe
 # Index
 
 * 2023
-	* [Elegy Engine - July-September 2023](pages/2023-q3-elegy.md)
-	* [Elegy Engine - October-December 2023](pages/2023-q4-elegy.md)
-	* [Miscellaneous - July-September 2023](pages/2023-q3-misc.md)
-	* [Miscellaneous - October-December 2023](pages/2023-q4-misc.md)
+	* Elegy Engine:
+		* [July-September 2023](pages/2023-q3-elegy.md)
+		* [October-December 2023](pages/2023-q4-elegy.md)
+	* Miscellaneous:
+		* [July-September 2023](pages/2023-q3-misc.md)
+		* [October-December 2023](pages/2023-q4-misc.md)
 * 2024
-	* [Elegy Engine - January-March 2024](pages/2024-q1-elegy.md)
-	* [Elegy Engine - April-June 2024](pages/2024-q2-elegy.md)
-	* [Elegy Engine - July-September 2024](pages/2024-q3-elegy.md)
-	* *Elegy Engine - October-December 2024*
-	* [Miscellaneous - January-March 2024](pages/2024-q1-misc.md)
-	* [Miscellanous - April-June 2024](pages/2024-q2-misc.md)
-	* [Miscellanous - July-September 2024](pages/2024-q3-misc.md)
-	* *Miscellanous - October-December 2024*
+	* Elegy Engine:
+		* [January-March 2024](pages/2024-q1-elegy.md)
+		* [April-June 2024](pages/2024-q2-elegy.md)
+		* [July-September 2024](pages/2024-q3-elegy.md)
+		* *October-December 2024*
+	* Miscellaneous:
+		* [January-March 2024](pages/2024-q1-misc.md)
+		* [April-June 2024](pages/2024-q2-misc.md)
+		* [July-September 2024](pages/2024-q3-misc.md)
+		* *October-December 2024*
 
 All of this is rather manual work, it'd be neat if I had some sorta content management thingy... d'oh well, this works fine.
