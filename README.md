@@ -15,6 +15,8 @@ The pages are split up into quarters of the year (JanFebMar, AprMayJun, JulAugSe
 	* [July-September](pages/2023-q3-misc.md)
 	* [October-December](pages/2023-q4-misc.md)
 ### 2024
+* Articles:
+	* **New!** [TrenchBroom Programming Guide](pages/2024-tbcode.md)
 * Elegy Engine:
 	* [January-March](pages/2024-q1-elegy.md)
 	* [April-June](pages/2024-q2-elegy.md)
