@@ -1,5 +1,11 @@
+---
+slug: 2023-q4-misc
+date: 2023-10-07
+authors: [admer456]
+tags: [life, legacy]
+---
 
-### [Index](../README.md) -> Q4 2023, Miscellaneous
+# Q4 2023, Miscellaneous
 
 ## 7th of October, 2023
 
@@ -10,6 +16,8 @@ Also egh, I am getting tired of my chair. I bought it like 3-4 months ago, and i
 Well, good thing is, I have standards now. I found a far far better chair for like 310€ and I'm really thinking about it, but TBH it might be better for me to wait for Christmas or something like that. We'll see.
 
 Oh yeah, also, I recently bought this [microfox.dev](microfox.dev) domain! If you are viewing from `admer456.github.io/slice-of-life`, which is highly unlikely, you should check out the new one now. Nothing is different, I just have my own sorta thing now.
+
+<!-- truncate -->
 
 I would really like to explore web development a bit now, I have some silly ASP.NET app ideas. Next step is to find some cheap hosting that can do what I want.
 

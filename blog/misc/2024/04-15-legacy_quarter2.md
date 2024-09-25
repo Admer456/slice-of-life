@@ -1,5 +1,11 @@
+---
+slug: 2024-q2-misc
+date: 2024-04-15
+authors: [admer456]
+tags: [life, legacy]
+---
 
-### [Index](../README.md) -> Q2 2024, Miscellaneous
+# Q2 2024, Miscellaneous
 
 ## 15th of April, 2024
 
@@ -10,7 +16,7 @@ Wew. I'm happy to say I've already reached a few goals I set for myself in Janua
 	* and a guitar
 * started making videos in 1080p
 
-Elegy is en route to becoming more and more usable, so that's cool.
+Elegy is en route to becoming more and more usable, so that's cool. <!-- truncate -->
 
 For a little while, I'll hardly be making any money, don't have much to work on at my job since we finished a project recently. Not really good for my attic renovation project, but that's okay, I'm in no hurry there. I do have some other things to do, so I'll try to make a couple bucks by May.
 

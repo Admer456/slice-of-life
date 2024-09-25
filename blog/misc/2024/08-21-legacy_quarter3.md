@@ -1,5 +1,11 @@
+---
+slug: 2024-q3-misc
+date: 2024-08-21
+authors: [admer456]
+tags: [life, legacy]
+---
 
-### [Index](../README.md) -> Q3 2024, Miscellaneous
+# Q3 2024, Miscellaneous
 
 ## 21st of August, 2024
 
@@ -7,7 +13,7 @@ Alright, let's see what I wrote about last time...
 
 Mental health.. mhm. Yeah, it's good now. I fixed my sleep schedule, too, I managed to wake up at 7:40 this morning and have proper pre-11:30 breakfast even. Back then it was a scramble to have brunch before 15:00, hah.
 
-The VRChat + Virtual Desktop hack still works, annnd I've yet to actually automate it. Because of course, that's how it goes. My brother managed to complete Boneworks, Bonelab and Half-Life Alyx, all before me. Because of course.
+The VRChat + Virtual Desktop hack still works, annnd I've yet to actually automate it. Because of course, that's how it goes. My brother managed to complete Boneworks, Bonelab and Half-Life Alyx, all before me. <!-- truncate --> Because of course.
 
 I've been looking for a new job lately. I can hardly believe I'm saying this, but going to the office every weekday would actually be quite nice!
 

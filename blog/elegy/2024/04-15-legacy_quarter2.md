@@ -1,5 +1,11 @@
+---
+slug: 2024-q2-elegy
+date: 2024-04-15
+authors: [admer456]
+tags: [elegy, legacy]
+---
 
-### [Index](../README.md) -> Q2 2024, Elegy
+# Q2 2024, Elegy
 
 ## 15th of April, 2024
 
@@ -16,6 +22,8 @@ This way tools will only use what they need from the engine, and won't pull unne
 > A couple weeks ago I experimented with a hybrid ECS that supports Source-style entity OOP... now I've thought up of a concept that might just make that obsolete. My idea for entity components was basically twofold: massive data processing and entity traits.
 
 I experimented with the entity parsing a bit further, and was able to elegantly make it work using code generation. It's very powerful, I must say!
+
+<!-- truncate -->
 
 Now I can define an entity component:
 ```cs
@@ -86,7 +94,7 @@ It's been a massive month for Elegy and some really good changes have happened t
 The engine now has a defined coordinate system: Z is up, Y is forward, X is right. There are also some helpful constants to make rotation easier. No more need to think in terms of XYZ, now you can just think in terms of right, forward, up, turning left, turning right etc. That's right: we kind of have "turns" instead of just degrees or radians.
 
 Finally, the renderer is kinda done. This will get rewritten soon enough but most of the render backend work is done. The shader system, material system etc. are mostly there, and we can now render textured models:
-![](img/2024_q2_elegy_render.png)
+![](../../img/2024_q2_elegy_render.png)
 *Oh, the glorious "missing texture" texture in the background.*
 
 Elegy is now sitting at over 600 commits which is pretty cool. Throughout May I wanna focus on the developer console and a proper "render world" API. But also I'd like to toy around with a physics engine & audio.

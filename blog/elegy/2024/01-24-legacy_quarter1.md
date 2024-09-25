@@ -1,5 +1,11 @@
+---
+slug: 2024-q1-elegy
+date: 2024-01-24
+authors: [admer456]
+tags: [elegy, legacy]
+---
 
-### [Index](../README.md) -> Q1 2024, Elegy
+# Q1 2024, Elegy
 
 ## 24th of January, 2024
 
@@ -19,6 +25,8 @@ Entity traits would "inject" functionality into entities, and honestly, I think 
 @PointClass base( Door, Model ) = prop_door
 []
 ```
+
+<!-- truncate -->
 
 Other than that, I've been de-Godot-ifying the engine a little bit. I'm sad to have to say goodbye to that glorious UI system, but alas. It'll be worth the sacrifice, and I can't wait to play with BepuPhysics in February.
 

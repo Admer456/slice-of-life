@@ -1,0 +1,19 @@
+hello:
+  label: Hello
+  permalink: /hello
+  description: Hello world!
+
+elegy:
+  label: Elegy Engine
+  permalink: /elegy
+  description: Legacy blogs about Elegy Engine
+
+life:
+  label: Life
+  permalink: /life
+  description: Miscellaneous blogs from my life
+
+legacy:
+  label: Legacy
+  permalink: /legacy
+  description: Legacy posts before the switch to Docusaurus

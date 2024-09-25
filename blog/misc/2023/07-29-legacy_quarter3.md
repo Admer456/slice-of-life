@@ -1,5 +1,11 @@
+---
+slug: 2023-q3-misc
+date: 2023-07-29
+authors: [admer456]
+tags: [life, legacy]
+---
 
-### [Index](../README.md) -> Q3 2023, Miscellaneous
+# Q3 2023, Miscellaneous
 
 ## 29th of July, 2023
 Been busy with my jobs.
@@ -16,6 +22,8 @@ It’s the end of the month and damn is it a good one. Yesterday, on the 30th, I
 Cousins left yesterday. It feels pretty weird without them, and there is an extra weird / half-depressing feeling when it’s the end of summer and school is about to start. I then realised, oh, I don’t quite have to suffer from that any more. It’s a little different for me now.
 
 I completed most of HL SDK Programming 4.1. It is going rather splendidly.
+
+<!-- truncate -->
 
 Thinking about porting some of my Excel sheets into Google Sheets. It’d let me view them on the phone easily.
 

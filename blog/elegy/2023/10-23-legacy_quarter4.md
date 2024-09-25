@@ -1,5 +1,11 @@
+---
+slug: 2023-q4-elegy
+date: 2023-10-23
+authors: [admer456]
+tags: [elegy, legacy]
+---
 
-### [Index](../README.md) -> Q4 2023, Elegy
+# Q4 2023, Elegy
 
 ## 23rd of October, 2023
 
@@ -27,6 +33,8 @@ materials/tools/nodraw
 	}
 }
 ```
+
+<!-- truncate -->
 
 Also been pondering about adding OpenXR one day. I like VR and Elegy could totally be used for VR one day. Maybe in a couple years from now. Right now since Elegy is using Godot as a backend, VR is already more than possible, but I don't wanna rely on Godot for more things than necessary.
 

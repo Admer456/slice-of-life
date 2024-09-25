@@ -1,5 +1,11 @@
+---
+slug: 2023-q3-elegy
+date: 2023-07-29
+authors: [admer456]
+tags: [elegy, legacy]
+---
 
-### [Index](../README.md) -> Q3 2023, Elegy
+# Q3 2023, Elegy
 
 ## 29th of July 2023
 
@@ -8,6 +14,8 @@ I’ve been having a lot more ideas for Elegy, regarding car destruction, lightm
 ## 10th of August 2023
 
 My schedule is finally clearing up and I will be able to work on Elegy again soon.
+
+<!-- truncate -->
 
 ## 18th of August, 2023
 
@@ -25,7 +33,7 @@ Lightmapped day-night cycles. Yes. I want to experiment with them. The idea at f
 
 My first thought was that I could approximate it with Valve's self-shadowing bumpmaps technique. To my understanding, each pixel on an ssbump represents a visibility cone, and the magnitude of that pixel's vec3 is effectively the width of that cone. Very cool!
 
-![](img/ssbump_illustration.png)
+![](../../img/ssbump_illustration.png)
 
 See the red arrows inside? Their direction is basically the RGB, and the width/narrowness of the cone is effectively `distance(rgb)`. It is calculated by shooting a bunch of rays from the pixel, and averaging out the directions of the rays that didn't hit anything.
 
@@ -33,7 +41,7 @@ In essence, in a normal map, a pixel says "I am facing this direction". In an ss
 
 The problem is that this doesn't exactly work for non-heightmap stuff. What if there's a floating object?
 
-![](img/ssbump_flaw.png)
+![](../../img/ssbump_flaw.png)
 
 Two or more cones can occur in various situations: having two or more windows in a room, garages, any place where light can directly enter/exit through two or more passages.
 
@@ -41,11 +49,11 @@ Two or more cones can occur in various situations: having two or more windows in
 
 At the moment, this is more or less the only way I see this ever happening. Imagine a little point with 16 rays coming out of it:
 
-![](img/ssbump_alt.png)
+![](../../img/ssbump_alt.png)
 
 This example has 9, but whatever. Now let's imagine each of these rays represents the position of a bit in a 32-bit integer.
 
-![](img/ssbump_alt2.png)
+![](../../img/ssbump_alt2.png)
 
 I am convinced this could work. Each pixel would consist of an RG value, 16 bits each, making for 32 bits per pixel. Since it's sampled exclusively on a slightly reduced hemisphere (~169°), we will get a resolution of 10.5° per bit.
 

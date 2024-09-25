@@ -1,5 +1,11 @@
+---
+slug: 2024-q1-misc
+date: 2024-01-08
+authors: [admer456]
+tags: [life, legacy]
+---
 
-### [Index](../README.md) -> Q1 2024, Miscellaneous
+# Q1 2024, Miscellaneous
 
 ## 8th of January, 2024
 
@@ -11,7 +17,7 @@ Sretna nova! (or srećna as our eastern neighbours would say it)
 * February: worked on a secret lil' GUI tool project
 * March: cemented the Elegy Engine project, played with Veldrid, ported Unreal-style water to Godot
 * April: got a job, started working on my college game project (in Unity ;w;)
-* May: got used to the job, started working on a commercial Source game on the side - Amygdala
+* May: got used to the job, started working on a commercial Source game on the side - Amygdala <!-- truncate -->
 * June: got the Logi G29 steering wheel and a 165 Hz monitor, stuff I've never seen before, let alone touched
 * July: HL software-style water shader, presented my college game project
 * August: designed a little sketch of the attic project in TrenchBroom, baked my first pizza dough, came up with the double-grid idea for Elegy

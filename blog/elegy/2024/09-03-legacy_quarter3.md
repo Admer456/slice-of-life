@@ -1,5 +1,11 @@
+---
+slug: 2024-q3-elegy
+date: 2024-09-03
+authors: [admer456]
+tags: [elegy, legacy]
+---
 
-### [Index](../README.md) -> Q3 2024, Elegy
+# Q3 2024, Elegy
 
 ## 3rd of September, 2024
 
@@ -12,6 +18,8 @@ You'll notice I didn't exactly have triggering implemented. I only *thought* abo
 ### Hybrid ECS: The Sequel
 
 I have extended `fennecs` with my own stuff on top, in a separate library which I might as well release in its own NuGet package! Eventually.
+
+<!-- truncate -->
 
 ```cs
 [Component]
