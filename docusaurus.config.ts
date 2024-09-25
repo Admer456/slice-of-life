@@ -11,7 +11,7 @@ const config: Config = {
   url: 'https://microfox.dev',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/slice-of-life/',
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   organizationName: 'Admer456',
