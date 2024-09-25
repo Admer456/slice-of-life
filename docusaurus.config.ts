@@ -17,15 +17,15 @@ const config: Config = {
   organizationName: 'Admer456',
   projectName: 'slice-of-life',
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   trailingSlash: false,
 
-  //i18n: {
-  //  defaultLocale: 'en',
-  //  locales: ['en'],
-  //},
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en'],
+  },
 
   presets: [
     [
