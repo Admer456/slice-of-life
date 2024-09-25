@@ -1,0 +1,56 @@
+.featureCategoryHeading {
+  font-size: 32px;
+}
+
+.features {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.featureContainer {
+  display: flex;
+}
+
+.featureDesc {
+  font-size: small;
+}
+
+.bgHighlight {
+  background-color: rgba( 128, 128, 128, 0.1 );
+}
+
+.featureLink {
+  color: inherit;
+  transition: background-color 0.25s;
+}
+
+.featureLink:hover {
+  color: inherit;
+  text-decoration: inherit;
+  background-color: rgba( 128, 128, 128, 0.1 );
+  transition: background-color 0.25s;
+}
+
+.featureLink h2 {
+  font-size: 24px;
+  transition: font-size 0.25s;
+}
+
+.featureLink:hover h2 {
+  font-size: 25px;
+  transition: font-size 0.25s;
+}
+
+.featureLink img {
+  width: 200px;
+  height: 200px;
+  transition: width 0.25s, height 0.25s;
+}
+
+.featureLink:hover img {
+  width: 205px;
+  height: 205px;
+  transition: width 0.25s, height 0.25s;
+}
