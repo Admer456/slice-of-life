@@ -17,16 +17,16 @@ These days I am prototyping a file browser for asset paths, prototyping other th
 ## Chapters
 
 :::note
-This is an early work in progress! Most of the stuff hasn't been written, and as such, is regular text. Written chapters have links attached to them.  
+This is an early work in progress! Written chapters have links attached to them.  
 Further work will also be done to enhance navigation. More sub-chapters will be added over time as the guide is more fleshed out.
 :::
 
 This guide comes in a few chapters, each covering a different aspect of the codebase, and occasionally non-code stuff as well.
 
-1. [Introduction](tbcode/chapter1/chapter1.md) - Some philosophy, prerequisites, building etc.
-2. [Overview](tbcode/chapter2/chapter2.md) - Architectural overview and software design patterns
+1. [Introduction](tbcode/chapter1/chapter1.md) (90%) - Some philosophy, prerequisites, building etc.
+2. [Overview](tbcode/chapter2/chapter2.md) (60%) - Architectural overview and software design patterns
 3. Assets and IO - How TB handles entity definitions (FGD etc.) and file formats
 4. Model - All entities, brushes and how they work
-5. [View](tbcode/chapter5/chapter5.md) (WiP) - Core layout, event loop, editing tools, panels, commands etc.
+5. [View](tbcode/chapter5/chapter5.md) (20%) - Core layout, event loop, editing tools, panels, commands etc.
 6. Renderer - How TB renders the map
 7. Bite-sized examples - Simple file browser, user-friendly keyvalue names, custom grid size, custom brush editing tool etc.
