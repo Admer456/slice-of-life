@@ -76,7 +76,7 @@ Everybody has their own, and if you're new and thinking "Hmm I would love to mod
 
 ## Building
 
-Since this editor uses the Qt framework, you will need to create a free Qt account and install Qt5. You don't need Qt Creator or any of that jazz, just Qt5's Widgets library more or less.
+Since this editor uses the Qt framework, you can create a free Qt account and install Qt5. It is also possible to install Qt [without an account](https://github.com/miurahr/aqtinstall). You don't need Qt Creator or any of that jazz, just Qt5's Widgets library more or less. 
 
 You can follow the [build instructions](https://github.com/TrenchBroom/TrenchBroom/blob/master/Build.md) on the repository, however I'll summarise them here.
 
@@ -85,12 +85,33 @@ Generally speaking, you need a C++ compiler, CMake and Qt5. You can clone the re
 git clone https://github.com/TrenchBroom/TrenchBroom.git --recursive
 ```
 
+Here are some extra notes:
+
 :::tip
 If you're like me, living in Bosnia with a poor Internet connection, you can also fork TB and do this:
 ```
-https://github.com/<your-gh-account>/TrenchBroom.git --recurse-submodules --depth=1
+git clone https://github.com/<your-gh-account>/TrenchBroom.git --recurse-submodules --depth=1
 ```
 `--depth=1` only clones the latest commit. You **must not** use `--shallow-submodules` here due to `vcpkg`, it needs a more complete Git history.
+:::
+
+:::info
+Optionally, you can also install [Pandoc](https://pandoc.org/), which is used to generate the TrenchBroom manual.
+:::
+
+:::tip
+Should you go the no-Qt-account route, here's an example set of commands to follow for Windows:
+```
+aqt list-qt windows desktop // list versions 
+aqt list-qt windows desktop --arch=5.15.2 // list available architectures for selected version
+
+aqt install-qt windows desktop 5.15.2 win64_msvc2019_64
+aqt install-qt --outputdir C:/Qt windows desktop 5.15.2 win64_msvc2019_64 // if you want to output to C:/Qt instead
+```
+
+In a nutshell, `aqt install-qt` followed by the desired version and/or location.
+
+Thank you [rtxa](https://github.com/rtxa) for this info!
 :::
 
 ### Windows
@@ -100,6 +121,20 @@ cmake .. -G"Visual Studio 17 2022" -T v143 -A x64 -DCMAKE_PREFIX_PATH="C:\Qt\5.1
 ```
 
 `CMAKE_PREFIX_PATH` needs to point to your Qt installation. Make sure you have a pretty recent version of CMake else `vcpkg` will attempt to download it... in either case, `vcpkg` will take care of the rest.
+
+:::tip
+I personally use Rider, but if you're on VSCode, it's also good to set up your workspace:
+```
+{
+    "cmake.configureSettings": {
+        "CMAKE_PREFIX_PATH": "C:\\Qt\\5.15.2\\msvc2019_64",
+        "PANDOC_PATH": "C:\\Users\\<USER>\\AppData\\Local\\Pandoc", // Default location from the installer
+    }
+}
+```
+
+Once again, thank you [rtxa](https://github.com/rtxa) for this info!
+:::
 
 ### Linux
 On Debian-based distros you need:
