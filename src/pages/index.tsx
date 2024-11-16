@@ -25,7 +25,7 @@ export default function Home(): JSX.Element {
   return (
     <Layout
       title={`Hello there, stranger!`}
-      description="Description will go into a meta tag in <head />">
+      description="This is my lil website!">
       <HomepageHeader />
       <main>
         <HomepageIntroduction />
