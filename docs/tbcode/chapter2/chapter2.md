@@ -91,11 +91,3 @@ You will notice that it converts the `QColor` into a `TrenchBroom::Color` before
 * `makeEmphasized` - makes a label **bold**
 * `createBitmapButton` - does exactly what it says
 * `createSearchBox` - creates a little textbox with an accompanying search icon
-
-## Design patterns
-
-Some notable patterns in TB include: Adapter, Command, Facade and the Visitor pattern.
-
-:::warning[TODO]
-Write this section further with examples.
-:::
