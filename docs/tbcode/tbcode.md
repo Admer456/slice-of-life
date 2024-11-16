@@ -24,7 +24,7 @@ Further work will also be done to enhance navigation. More sub-chapters will be 
 This guide comes in a few chapters, each covering a different aspect of the codebase, and occasionally non-code stuff as well.
 
 1. [Introduction](tbcode/chapter1/chapter1.md) (90%) - Some philosophy, prerequisites, building etc.
-2. [Overview](tbcode/chapter2/chapter2.md) (60%) - Architectural overview and software design patterns
+2. [Overview](tbcode/chapter2/chapter2.md) (80%) - Architectural overview and software design patterns
 3. Assets and IO - How TB handles entity definitions (FGD etc.) and file formats
 4. Model - All entities, brushes and how they work
 5. [View](tbcode/chapter5/chapter5.md) (20%) - Core layout, event loop, editing tools, panels, commands etc.
