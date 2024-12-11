@@ -44,6 +44,7 @@ In essence:
 * `MapFrame` hosts the entire UI,
 * `MapViewBase` instances (`MapView3D`, `MapView2D`, hosted by `SwitchableMapViewContainer`) are renderable viewports that accept various user input events, and
 * `MapDocument` is the central component of all map editing operations.
+* All UI classes have a `createGui` method which is called from the constructor, and it creates all necessary widgets.
 
 :::info[Keep in mind]
 `MapDocument` is not a UI component, but rather a host of map data and a set of operations on said data. Widgets and actions of all sorts ultimately interact with `MapDocument`, and so do other layers, indirectly so.
