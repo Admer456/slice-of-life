@@ -52,7 +52,7 @@ So, my ESP32-S2 and ESP32-S3 chips arrived. I have a 1 kΩ slide potentiometre t
 I happen to have an old VW Passat handbrake in the garage, so I thought about doing something like this:
 ![](../../img/usb_handbrake.png)
 
-Should work. I'll do some additional work to secure the thing onto a platform later, so it can eventually be attached to a sim racing cockpit or a wheel stand. For January I wanna prototype the software part 
+Should work. I'll do some additional work to secure the thing onto a platform later, so it can eventually be attached to a sim racing cockpit or a wheel stand. For January I wanna prototype the software part, i.e. getting my PC to recognise the thing as a USB device, emulate a gamepad and test it in-game. 
 
 Before I bought anything, I did a ton of research, in particular about the ESP32's USB capabilities. Over here in Bosnia, I can only find the ESP32 and ESP8266, which are capable of low-speed USB but emulated in software. Lots of bit-banging going on.
 
