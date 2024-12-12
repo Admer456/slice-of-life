@@ -44,7 +44,8 @@ In essence:
 * `MapFrame` hosts the entire UI,
 * `MapViewBase` instances (`MapView3D`, `MapView2D`, hosted by `SwitchableMapViewContainer`) are renderable viewports that accept various user input events, and
 * `MapDocument` is the central component of all map editing operations.
-* All UI classes have a `createGui` method which is called from the constructor, and it creates all necessary widgets.
+* All UI classes have a `createGui` method - called from the constructor - and it creates all necessary widgets and layout, e.g. labels, images, splitters etc.
+* Some UI classes have a `connectObservers` method - called from the constructor - and it connects the class' methods to various editing events, e.g. changes to entities.
 
 :::info[Keep in mind]
 `MapDocument` is not a UI component, but rather a host of map data and a set of operations on said data. Widgets and actions of all sorts ultimately interact with `MapDocument`, and so do other layers, indirectly so.
@@ -70,3 +71,56 @@ The flow of events goes like this:
 	3. The controller then interacts with its respective `Tool`.
 	4. The tool interacts with `MapDocument` to modify some geometry for instance.
 	5. Finally, `MapDocument` proceeds to visit e.g. selected brush nodes.
+
+## Reacting to changes
+
+TrenchBroom has this thing called `NofifierConnection`, and it's basically a way of observing changes in other UI components.
+
+```cpp
+void MyWidget::connectObservers()
+{
+  notifierConnection += notifier.connect(this, &MyWidget::myObservingMethod);
+}
+```
+
+For example, the entity property editor observes changes in the map document!
+
+```cpp title="src/common/View/EntityPropertyEditor.cpp"
+void EntityPropertyEditor::connectObservers()
+{
+  auto document = kdl::mem_lock(m_document);
+  m_notifierConnection += document->selectionDidChangeNotifier.connect(
+    this, &EntityPropertyEditor::selectionDidChange);
+  m_notifierConnection +=
+    document->nodesDidChangeNotifier.connect(this, &EntityPropertyEditor::nodesDidChange);
+}
+```
+
+Every time the user selects another entity or modifies the selection (e.g. by pressing PgUp or PgDn to change their position), the entity editor is updated to reflect those changes. For bookkeeping purposes, each UI class that connects to notifiers, needs to have a `NotifierConnection` member.
+
+The other side of this story is `Notifier<T>` which, if you're coming from C#, is essentially like `event Action<T>`, with added C++ fluff. In either case, it's a super powerful component of TB's code:
+```cpp title="src/common/View/MapDocument.h"
+class MapDocument : public Model::MapFacade, public CachingLogger
+{
+  //...
+  Notifier<MapDocument*> documentWillBeClearedNotifier;
+  Notifier<MapDocument*> documentWasClearedNotifier;
+  Notifier<MapDocument*> documentWasNewedNotifier;
+  Notifier<MapDocument*> documentWasLoadedNotifier;
+  Notifier<MapDocument*> documentWasSavedNotifier;
+  Notifier<> documentModificationStateDidChangeNotifier;
+```
+
+And here is how they're invoked:
+```cpp
+void MapDocumentCommandFacade::performSelect(
+  const std::vector<Model::BrushFaceHandle>& faces)
+{
+  selectionWillChangeNotifier();
+  // ...
+  Selection selection;
+  selection.addSelectedBrushFaces(selected);
+
+  selectionDidChangeNotifier(selection);
+}
+```

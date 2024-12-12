@@ -67,10 +67,6 @@ private:
 
 *We have been blessed by a comment!*
 
-:::warning[TODO]
-Write about `NotifierConnection`.
-:::
-
 All of the editing happens in the entity property grid, but also smart editors:
 
 ![](../../img/smart_editor.png)
