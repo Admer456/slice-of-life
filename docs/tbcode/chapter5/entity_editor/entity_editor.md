@@ -471,9 +471,135 @@ I wouldn't recommend doing it that way though! It's best to create a smart edito
 
 ### Interfacing with entities
 
-:::warning[TODO]
-Write this section.
-:::
+Here we can ask two questions:
+1. How does `EntityPropertyModel` load and respond to changes in selected entities?
+2. How does it write to selected entities?
+
+If you've read about [notifiers](../chapter5.md#reacting-to-changes) before, and know a little bit about the [map document](../mapdoc.md), you should already be able to guess!
+
+```cpp
+void EntityPropertyGrid::connectObservers()
+{
+  auto document = kdl::mem_lock(m_document);
+  m_notifierConnection += document->documentWasNewedNotifier.connect(
+    this, &EntityPropertyGrid::documentWasNewed);
+  m_notifierConnection += document->documentWasLoadedNotifier.connect(
+    this, &EntityPropertyGrid::documentWasLoaded);
+  m_notifierConnection +=
+    document->nodesDidChangeNotifier.connect(this, &EntityPropertyGrid::nodesDidChange);
+  m_notifierConnection += document->selectionWillChangeNotifier.connect(
+    this, &EntityPropertyGrid::selectionWillChange);
+  m_notifierConnection += document->selectionDidChangeNotifier.connect(
+    this, &EntityPropertyGrid::selectionDidChange);
+}
+```
+
+Indeed, it uses notifiers. `EntityPropertyGrid::selectionDidChange` leads us to:
+
+```cpp
+void EntityPropertyGrid::updateControls()
+{
+  // When you change the selected entity in the map, there's a brief intermediate state
+  // where worldspawn is selected. If we call this directly, it'll cause the table to be
+  // rebuilt based on that intermediate state. Everything is fine except you lose the
+  // selected row in the table, unless it's a key name that exists in worldspawn. To avoid
+  // that problem, make a delayed call to update the table.
+  QTimer::singleShot(0, this, [&]() {
+    m_model->updateFromMapDocument();
+
+    if (m_table->selectionModel()->selectedIndexes().empty())
+    {
+      restoreSelection();
+    }
+    ensureSelectionVisible();
+
+    const auto shouldShowProtectedProperties = m_model->shouldShowProtectedProperties();
+    m_table->setColumnHidden(
+      EntityPropertyModel::ColumnProtected, !shouldShowProtectedProperties);
+    m_addProtectedPropertyButton->setHidden(!shouldShowProtectedProperties);
+  });
+  updateControlsEnabled();
+}
+```
+
+There is a little note about the usage of `QTimer`.
+
+The model is then updated from selected entities:
+
+```cpp
+void EntityPropertyModel::updateFromMapDocument()
+{
+  MODEL_LOG(qDebug() << "updateFromMapDocument");
+
+  auto document = kdl::mem_lock(m_document);
+
+  const auto entityNodes = document->allSelectedEntityNodes();
+  const auto rowsMap =
+    PropertyRow::rowsForEntityNodes(entityNodes, m_showDefaultRows, true);
+
+  setRows(rowsMap);
+  m_shouldShowProtectedProperties = computeShouldShowProtectedProperties(entityNodes);
+}
+```
+
+Fundamentally, this creates a copy of the properties so they can be displayed as rows. Okay, we got that, but what about applying changes to entities?
+
+First, `EntityPropertyModel` implements `QAbstractTableModel::setData`, which is called whenever items are edited on the table. Then, given that `EntityPropertyModel` (as well as many other UI components) has access to the map document, it's easy to obtain the current selection of entities and apply changes to them:
+
+```cpp
+bool EntityPropertyModel::setData(
+  const QModelIndex& index, const QVariant& value, const int role)
+{
+  const auto& propertyRow = m_rows.at(static_cast<size_t>(index.row()));
+  unused(propertyRow);
+
+  if (role != Qt::EditRole && role != Qt::CheckStateRole)
+  {
+    return false;
+  }
+
+  // ...
+
+  else if (index.column() == ColumnValue && role == Qt::EditRole)
+  {
+    // ...
+    if (updateProperty(
+          rowIndex, mapStringFromUnicode(document->encoding(), value.toString()), nodes))
+    {
+      return true;
+    }
+  }
+```
+
+There is extra logic in there in case the user is renaming an entity property key.
+
+Finally, `updateProperty` does this:
+
+```cpp
+bool EntityPropertyModel::updateProperty(
+  const size_t rowIndex,
+  const std::string& newValue,
+  const std::vector<Model::EntityNodeBase*>& nodes)
+{
+  // ...
+  auto hasChange = false;
+  const auto& key = m_rows.at(rowIndex).key();
+  for (const auto* node : nodes)
+  {
+    // ... check to see if properties did actually change
+  }
+
+  if (!hasChange)
+  {
+    return true;
+  }
+
+  auto document = kdl::mem_lock(m_document);
+  return document->setProperty(key, newValue);
+}
+```
+
+Very nice. You will also see `document->setProperty` being used in smart editors.
 
 ### Handling multiple selected entities
 
