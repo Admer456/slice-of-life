@@ -27,6 +27,6 @@ This guide comes in a few chapters, each covering a different aspect of the code
 2. [Overview](tbcode/chapter2/chapter2.md) (80%) - Architectural overview and software design patterns
 3. Assets and IO - How TB handles entity definitions (FGD etc.) and file formats
 4. Model - All entities, brushes and how they work
-5. [View](tbcode/chapter5/chapter5.md) (20%) - Core layout, event loop, editing tools, panels, commands etc.
+5. [View](tbcode/chapter5/chapter5.md) (60%) - Core layout, event loop, editing tools, panels, commands etc.
 6. Renderer - How TB renders the map
 7. Bite-sized examples - Simple file browser, user-friendly keyvalue names, custom grid size, custom brush editing tool etc.
