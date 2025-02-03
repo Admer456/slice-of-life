@@ -1,6 +1,6 @@
 ---
 slug: 03-02-update
-date: 2024-02-03
+date: 2025-02-03
 authors: [admer456]
 tags: [life]
 ---
