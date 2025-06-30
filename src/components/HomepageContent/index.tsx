@@ -34,7 +34,7 @@ export default function HomepageContent(): JSX.Element {
         <div className='container'>
           <div className='row row--no-gutters padding-vert--sm'>
             {Feature("Elegy Engine (WiP)",
-              "https://github.com/ElegyEngine",
+              "https://elegy.microfox.dev",
               "/img/homepage/elegy.png",
               "col--6",
               <p>
