@@ -1,5 +1,5 @@
 ---
-slug: 11-12-update
+slug: 12-11-update
 date: 2024-12-11
 authors: [admer456]
 tags: [life, elegy]

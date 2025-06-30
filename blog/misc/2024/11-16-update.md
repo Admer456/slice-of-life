@@ -1,5 +1,5 @@
 ---
-slug: 16-11-hl2-20
+slug: 11-16-update
 date: 2024-11-16
 authors: [admer456]
 tags: [life]
