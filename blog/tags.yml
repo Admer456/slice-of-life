@@ -17,3 +17,13 @@ legacy:
   label: Legacy
   permalink: /legacy
   description: Legacy posts before the switch to Docusaurus
+
+projects:
+  label: Projects
+  permalink: /projects
+  description: Various projects of mine that aren't Elegy
+
+gpu:
+  label: Graphics
+  permalink: /gpu
+  description: Vulkan, OpenGL, anything related
