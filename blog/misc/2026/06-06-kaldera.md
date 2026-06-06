@@ -13,6 +13,8 @@ Over the past couple months, I've been building a light Vulkan framework(?) in C
 
 ![](../../img/2026_kaldera_ex1.png)
 
+<!-- truncate -->
+
 ![](../../img/2026_kaldera_ex2.png)
 
 To put it shortly, after years of OpenGL, then NVRHI (as well as trying Diligent, BGFX etc.) and then running a fork of a fork of Veldrid, I decided to finally try out Vulkan 1.4. I was quite encouraged by Sebastian Aaltonen's [No Graphics API](https://www.sebastianaaltonen.com/blog/no-graphics-api) blog post.
@@ -496,4 +498,4 @@ Multi-GPU is a thing for the far future, but it's a curiosity of mine. Might pla
 
 Finally, I'd love to have a nice, proper extension system. Essentially, you'd have NuGet packages that are literally just certain Vulkan extensions. They'd come with some extra types and extension methods for command buffers for example. Ray-tracing and mesh shading pipelines could very well be implemented this way. Very modular, and very plug'n'play.
 
-I hope, one day, this will be a small but positive contribution to the world of graphics and C#. Thanks for reading. <3
+I hope, one day, this will be a small but positive contribution to the world of graphics and C#. Thanks for reading. 🤍
