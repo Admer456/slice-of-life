@@ -7,6 +7,8 @@ tags: [projects, gpu]
 
 # My lil' Vulkan experiment
 
+*After years on the RHI coast, it was time to go home.*
+
 First off, here is the repository: https://github.com/Admer456/kaldera
 
 Over the past couple months, I've been building a light Vulkan framework(?) in C#. It's based on Vulkan 1.4, uses Silk.NET bindings, and I've been using it with Slang. For now, I'm sticking to the name "Kaldera", but it's not set in stone.
@@ -17,7 +19,9 @@ Over the past couple months, I've been building a light Vulkan framework(?) in C
 
 ![](../../img/2026_kaldera_ex2.png)
 
-To put it shortly, after years of OpenGL, then NVRHI (as well as trying Diligent, BGFX etc.) and then running a fork of a fork of Veldrid, I decided to finally try out Vulkan 1.4. I was quite encouraged by Sebastian Aaltonen's [No Graphics API](https://www.sebastianaaltonen.com/blog/no-graphics-api) blog post.
+To put it shortly, after years of OpenGL, then NVRHI (+ trying Diligent, BGFX and others) and then running a fork of a fork of Veldrid, I decided to finally try out Vulkan 1.4.
+
+I was quite encouraged by Sebastian Aaltonen's [No Graphics API](https://www.sebastianaaltonen.com/blog/no-graphics-api) blog post. I kept putting it off for a long time, thinking Vulkan was super hard or something. But it's no longer 2016. We have it pretty good now, I'd say.
 
 My focus is mostly on Linux and Windows, with some interest in PCVR. I'll be using it in my retro FPS game engine (mostly CPU-driven rendering), so I need really good CPU throughput, very little indirection and such.
 
@@ -27,16 +31,18 @@ You may skip the first two sections here if you're only interested in the librar
 
 ## Some of my history
 
-It was 2014. I was in 7th grade and we began learning QBasic 4.5. We started with simple programs, learning variables, conditionals, loops and the like. By the end of that year, we were doing some really, really basic graphics.
+*Oh boy.*
+
+It was 2014. I was in 7th grade and we learned QBasic 4.5. We started with simple programs, learning variables, conditionals, loops and the like. By the end of that year, we did some really, really basic graphics.
 
 ```vb
 SCREEN 1
 LINE (110, 70)-(190, 120), 3
 ```
 
-That was the start of my graphics journey, believe it or not.
+That was the start of my graphics journey, believe it or not. I sorta made "animations" by manually drawing line-by-line frames, with `SLEEP` calls in between frames. Sure wish I thought of using variables and loops back then...
 
-Fast-forward to late 2019, I was in high school, working on my second little game prototype in idTech 4 (the Doom 3 engine). The first one did well at a local gamedev competition, and for the second one I wanted some pretty nice looks.
+Fast-forward to late 2019, I was in high school, working on my second game prototype in idTech 4 (the Doom 3 engine). The first one did well at a local gamedev competition, and for the second one I wanted some pretty nice looks.
 
 I was using a fork of the engine that had OpenGL 3.3 and GLSL shaders. Having a little C++ knowledge, I figured: if GLSL is a C-like language and shaders are really just code, could I write my own?
 
@@ -48,17 +54,19 @@ Soon enough, I got my hands on some PBR shading code. All it really did was chan
 
 ![](../../img/odljev_blend.jpg)
 
-I also achieved something I (and some other idTech 4 users) considered a holy grail at the time: 4-way texture blending with vertex colours! All this thanks to shader programming and me slowly getting comfy with OpenGL.
+I also achieved something I (and some other idTech 4 users) considered a holy grail at the time: 4-way texture blending, driven by vertex colours! All this thanks to shader programming and me slowly getting comfy with OpenGL.
 
 This just encouraged me to get into graphics APIs. In 2020 I started learning OpenGL 3.3 raw. I picked up SDL2, GLEW and LearnOpenGL. I learned quite a bit, including instanced rendering. Fun stuff! I also got into idTech 3 in late 2020, which helped me learn so much about game engine architecture and whatnot.
 
 In late 2021, I was working on a Quake 2 RTX based project with a few folks, and we were in touch with Alexey Panteleev (nVidia engineer, worked on Q2RTX), who recommended me NVRHI as I was looking to try Vulkan. Later on, 2022-2023, I switched to Veldrid as I overall switched to C#.
 
-It was all pretty neat and I was introduced to "modern" graphics programming concepts. However, I found myself missing some of the flexibility from OpenGL. So I started looking into Vulkan extensions, to see if I could maybe modify Veldrid for my needs.
+It was all pretty neat and I was introduced to "modern" graphics programming concepts. However, I found myself missing some of the flexibility from OpenGL. So I started looking into Vulkan extensions, to see if I could maybe modify Veldrid for my needs. (spoilers: yesn't)
 
 ## Old, new, "modern" and modern graphics
 
-I said "modern" with quotes. Graphics programming techniques have evolved over the years. I'll specifically talk about getting geometry on the screen, how drawcalls evolved over time and shader IO.
+*"Modern" was in quotes. What did the writer mean by this?*
+
+Graphics programming techniques have evolved over the years. I'll specifically talk about how drawcalls evolved, and shader IO.
 
 So, initially with OpenGL 1.0, you'd immediately upload any and all rendering data when drawing.
 ```cpp
@@ -69,7 +77,7 @@ glVertex3f( ... );
 glEnd();```
 ```
 
-This here would've been one drawcall. Video cards of the time were designed for it. If you wanted to upload texture coordinates, you'd have to call a bunch of `glTexCoord2f` as well.
+This here would've been one drawcall. Video cards of the time were designed for it, and as you can see it was heavily CPU-bound. If you wanted to upload texture coordinates, you'd have to call a bunch of `glTexCoord2f` as well.
 
 Ignoring triangle fans and such, you then had OpenGL 1.1 with the ability to upload a buffer of vertices:
 ```cpp
@@ -78,7 +86,19 @@ glVertexPointer( ... );
 glEnd();
 ```
 
-Efficiency improved, but this is still heavily, heavily CPU and IO bound. This era is what I call "old". Immediate mode, no shaders, nothing. Eventually, with OpenGL 2.0, we got retained mode rendering, where you upload a buffer to video memory and draw that, referring to it using a handle.
+Efficiency improved, but this is still CPU- and IO-bound. This era is what I call "old". Immediate mode, no shaders, nothing.
+
+:::info[In the old days...]
+
+If you wanted fancy effects, you did them in multiple passes, and triangle counts mattered *a lot*.
+
+Occlusion culling had to be *so* granular, you'd only introduce up to a couple hundred triangles by going into a new room. This is partially why BSP-based PVS-es took off.
+
+These days, GPUs can render a whole chapter's worth of levels (from a late 90s/early 2000s game) in practically one drawcall. Real fast.
+
+:::
+
+Eventually, with OpenGL 2.0, we got retained mode rendering:
 
 ```cpp
 GLuint vertexBuffer;
@@ -89,7 +109,9 @@ glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
 glDrawArrays( GL_TRIANGLES, 0, numTriangles );
 ```
 
-Now, we could also insert an index buffer here somewhere, but that's besides the point. The major speedup here was moving from uploading the render data every frame to uploading the render data once, and only uploading an integer handle every frame. Pretty neat!
+*(Index buffers also speed up rendering, but we're focused on the cost of drawcalls here)*
+
+The major speedup here was the move from uploading geometry every frame to uploading it once, and only uploading a handle every frame. Pretty neat!
 
 Direct3D 7 had a similar mechanism, way before OpenGL 2.0.
 
@@ -100,7 +122,7 @@ d3dDevice->Create( ..., &pVertexBuffer );
 d3dDevice->DrawPrimitive( ..., &pVertexBuffer );
 ```
 
-(I cobbled this together from Direct3D 9 documentation and [this archive](https://library.thedatadungeon.com/directx7/devdoc/live/directx/imref_3d0k.htm) of Direct3D 7's APIs)
+*(I cobbled this together from Direct3D 9 documentation and [this archive](https://library.thedatadungeon.com/directx7/devdoc/live/directx/imref_3d0k.htm) of Direct3D 7's APIs)*
 
 Around this time (early 2000s), we also got shaders. Before shaders, if you wanted to implement specular mapping (with a special texture for it!), you would've had to render your surface in two passes: opaque diffuse + additive specular. You'd use vertex colours to calculate the shading.
 
@@ -113,11 +135,13 @@ DrawEntity( vertices, DIFFUSE_MAP, RENDERMODE_OPAQUE, diffuseVertexColours );
 DrawEntity( vertices, SPECULAR_MAP, RENDERMODE_ADDITIVE, specularVertexColours );
 ```
 
-You could now do all of that in a single pass. So yeah. Vertex buffers, index buffers, shaders -> efficiency improved. It improved even more when we got instanced rendering. This era (early to mid 2000s) is what I call "new", but it is not modern!
+You could now do all of that in a single pass.
+
+So yeah. Vertex buffers, index buffers, shaders -> efficiency improved. It improved even more when we got instanced rendering (DirectX 10, OpenGL 3). This era (around mid 2000s) is what I call "new", but it is not modern!
 
 What sets the "modern" era apart from the "new" era (besides ray tracing, mesh shading etc.) are command buffers and pipeline state objects.
 
-Pipeline state up to DirectX 11, and up to OpenGL 4.6, was handled dynamically. You could change depth testing, rasterisation options, blending etc. practically whenever you wanted!
+Pipeline state has traditionally been handled dynamically. You could change depth testing, rasterisation options, blending etc. practically whenever you wanted!
 
 ```cpp
 glEnable( GL_DEPTH_TEST );
@@ -133,9 +157,18 @@ That's literally what command buffers and PSOs are. PSOs contain a set of shader
 
 This led to the creation of Vulkan, DirectX 12 and Metal in the mid 2010s, the "modern" era. The idea was to bake everything, and I mean EVERYTHING, especially in Vulkan. If you resized your window, there goes the pipeline, you gotta rebuild the thing with a new viewport size. (thankfully, viewport & scissor size can be easily made dynamic)
 
-Shader inputs were described by descriptors. Descriptors were grouped into descriptor sets. They all had to be baked ahead of time, and you can imagine how much of a pain this would become for shader permutation systems, dynamic material properties and the like.
+Shader inputs were described by descriptors. Descriptors were grouped into descriptor sets. They all had to be baked ahead of time.
 
-There's more details about this in Sebastian Aaltonen's [No Graphics API](https://www.sebastianaaltonen.com/blog/no-graphics-api) and Amini Allight's [vknew](https://amini-allight.org/post/vknew-modern-vulkan-with-descriptor-indexing-dynamic-rendering-and-shader-objects). You'll see a narrative like this more or less everywhere. But in a nutshell, Vulkan 1.0 was a huge compromise. It was gonna be this graphics API of the future, yet it also had to support GPUs going a few years back, like the GTX 600 series (2012). And so it came out in 2016, imperfect as it was.
+:::info[Oops!]
+
+You can imagine how much of a pain this would become for shader permutation systems, dynamic material properties and the like. I mean heck, I'm guilty of doing that in my own engine.
+
+There's some more info about this in Sebastian Aaltonen's [No Graphics API](https://www.sebastianaaltonen.com/blog/no-graphics-api) and Amini Allight's [vknew](https://amini-allight.org/post/vknew-modern-vulkan-with-descriptor-indexing-dynamic-rendering-and-shader-objects). You'll see a narrative like this more or less everywhere. Oh yeah, a talk from [Vulkanised 2026](https://youtu.be/ebpudnxEw3Y?list=PLMLurvdlOpWNFlPD0kumIYtivIpUx1V0a) also mentions some of these troubles.
+
+:::
+
+
+In a nutshell, Vulkan 1.0 was a huge compromise. It was gonna be this graphics API of the future, yet it also had to support GPUs going a few years back, like the GTX 600 series (2012). And so it came out in 2016, imperfect as it was.
 
 This brings me to 2026, the "new modern" era. Vulkan 1.4 has so many nice things:
 * dynamic rendering (1.3) - you don't have to build render pass objects any more
@@ -148,13 +181,19 @@ This brings me to 2026, the "new modern" era. Vulkan 1.4 has so many nice things
 
 Over the years, some pretty interesting techniques have also cropped up. Using an elaborate setup of compute shaders, and indirect (and instanced? :3) rendering, your CPU doesn't need to do almost any work. A mere couple dispatches and drawcalls could render the whole scene. Rendering today can simply boil down to translating your CPU-side representation of a rendering engine into a GPU-side one.
 
+:::info[Hmm...]
+
 If, on the CPU side, you have an array of textures, an array of materials, an array of models, and finally an array of renderable objects, why not have *all* of that mirrored on the GPU? That, my friend, is the pinnacle of modern rendering. At least to some people. I dunno.
+
+:::
 
 What truly excites *me* is that we've almost come full circle. You can now implement OpenGL 1.0 in Vulkan with relative ease. We now have much of the flexibility the old APIs had (dynamic pipeline states), with the benefits of a modern API (true multithreading, barriers and the like).
 
 ## The problems I wanna solve
 
-Tired of working with Veldrid's Vulkan 1.0 backend, and wanting to try some Vulkan 1.4 goodies, I went ahead and started building a very thin OOP-ey wrapper for Vulkan. The idea was that the Vulkan instance, physical devices, logical devices and others would be objects with methods, and their `*CreateInfo` structures would also be simplified.
+Tired of working with Veldrid's Vulkan 1.0 backend, and wanting to try some Vulkan 1.4 goodies, I went ahead and started building a very thin OOP-ey wrapper for Vulkan. The idea was that the Vulkan instance, physical devices, logical devices and others would be objects with methods, and their `*CreateInfo` structures would also be simplified. So in other words, it was going to be a bit like Vulkan-Hpp, but covering only the parts of Vulkan I deemed important.
+
+Now, I mentioned a bunch of RHIs and how I was tired of Veldrid's Vulkan insides. Let's talk about some of that.
 
 ### The deceit 
 
@@ -231,9 +270,9 @@ void CommandList::updateGraphicsVolatileBuffers()
 }
 ```
 
-It's better, but this always felt a little off. It felt dirty, almost like a hack. It's perfectly understandable though. You can't really have a thin wrapper and support 3-4 different GAPIs at the same time. That's okay. But that ain't for me - I'm only interested in Vulkan.
+It's better, but this always felt a little off. It felt dirty, almost like a hack. It's perfectly understandable though. You can't really have a thin wrapper and support 3-4 different GAPIs at the same time. That's okay.
 
-A drawcall in Kaldera is just this:
+But that ain't for me - I'm only interested in Vulkan. A drawcall in Kaldera is just this:
 
 ```cs
 public void DrawIndexed( int indexCount, int instanceCount )
@@ -242,13 +281,31 @@ public void DrawIndexed( int indexCount, int instanceCount )
 }
 ```
 
-There. That's all I want. A very clear and direct connection to the graphics API. Now, of course, you might *prefer* having multiple GAPIs and see the "deceit" as reasonable design. I think that's valid, and it may be quite beneficial if you're not after advanced features or you're targeting plenty of platforms. That's all good, but my priority is just Linux and Windows, and I want something that *really* scratches my itch.
+There. That's all I want. A very clear and direct connection to the graphics API.
 
-But then, as I looked more into it, I realised this thin object wrapper is still verbose. It alone is not enough for a truly comfy Vulkan experience. I needed utilities for creating different kinds of buffers, textures and such. I needed the concept of a render target.
+:::info[But what if I want that?]
+
+You may *prefer* having multiple GAPIs and see the "deceit" as reasonable design. I think that's valid, especially if you're not after advanced features or you're targeting plenty of platforms.
+
+That's all good, but my priority is just Linux and Windows, and I wanted something that *really* scratches my itch.
+
+:::
+
+But then, I realised this thin object wrapper is still verbose. It alone is not enough for a truly comfy Vulkan experience. I needed utilities for creating different kinds of buffers, textures and such. I needed the concept of a render target... hmmph.
 
 ### You can't do that!
 
-Thinking about these things, building the wrappers, I also learned that different GPUs support different sets of operations for different image formats. One device may support compute RW on `D32_SFLOAT`, another may not.
+Thinking about these things, building the wrappers, I also learned that different GPUs support different sets of operations for different image formats. One device may support compute RW on `D32_SFLOAT`, another may not. (looking at *you*, AMD)
+
+:::info
+
+This stuff can be checked on the [Vulkan Hardware Database](https://vulkan.gpuinfo.org/) website. You pick a device, then a report of that device, and go to formats. Here's [one such report](https://vulkan.gpuinfo.org/displayreport.php?id=48390#formats) for my GPU, for example:
+
+![](../../img/2026_kaldera_gpurep.png)
+
+`D32_SFLOAT` supports `SAMPLED_IMAGE` and `STORAGE_IMAGE`, meaning you can both sample it in a vertex/pixel shader, but also read from/write to it in compute shaders!
+
+:::
 
 So, with the last 8 years of desktop GPUs in mind, I decided to translate this support matrix (+ any API restrictions) to the type system:
 * `Texture` - general 1D and 2D texture (sampling, blitting, RW, arraying)
@@ -259,7 +316,15 @@ So, with the last 8 years of desktop GPUs in mind, I decided to translate this s
 * `AttachmentDepthStencil` - DS attachment texture (blitting, arraying, MSAA) - locked to `D32_SFLOAT` or `D32S8_SFLOAT`
 * `AttachmentShadingRate` (not implemented a.t.m.) - variable rate shading tex (sampling, blitting, RW, arraying) - locked to `R8G8_UINT`
 
-There's something similar for buffers. `StorageBuffer`, `VertexBuffer<T>`, `IndexBuffer` and all. Vertex buffers are peculiar because there's technically a support matrix for different buffer types and formats, though in practice, any reasonable vertex attribute format is always supported. There are also uniform texel buffers, storage texel buffers, acceleration structure-related buffers and different GPUs support different formats for them, but those are not a priority right now.
+There's something similar for buffers. `StorageBuffer`, `VertexBuffer<T>`, `IndexBuffer` and all.
+
+:::info
+
+Vertex buffers are peculiar because there's technically a support matrix for different buffer types and formats, though in practice, any reasonable vertex attribute format is always supported.
+
+There are also uniform texel buffers, storage texel buffers, acceleration structure-related buffers and different GPUs support different formats for them, but those are not a priority right now.
+
+:::
 
 One alternative here would be to let the programmer check if the GPU supports particular usages/operations on individual formats. That's cool, but it still lets you make mistakes. I am willing to sacrifice a little flexibility for a *great* deal of safety.
 
@@ -430,7 +495,6 @@ It has these types:
 * `IndexBuffer`
 * `StagingBuffer`
 * `LayoutBuilder`
-* `ResourceBuilder`
 * `UploadHelper`
 * `DownloadHelper` - not yet
 * `Startup`
@@ -478,11 +542,17 @@ However, that may also mean making my life hell as a developer. It's all a balan
 
 So, with all this balancing in mind, I like to think I've made something pretty comfy. A pretty okay compromise.
 
-I don't reckon too much will change in the next 2 years? Descriptor heaps are a brand new feature, having come out in January this year (2026), so they will remain exotic for a little while. Unified image layouts may remain nVidia-only. But that's just my gut feeling. I do hope more QoL stuff gets adopted, but, I'm not sure I'll be switching to a Vulkan 1.5 anytime soon.
+### In the future
+
+Looking at extensions and future developments, I don't reckon much will change in the next 2 years?
+
+I'll still be on a ReBAR-less motherboard, unified image layouts will probably remain nVidia-only, and stuff like descriptor heaps will probably remain an exotic feature, given it released super recently (January 2026).
+
+So, if a Vulkan 1.5 does come out within a year, I'll probably wait for a while. 1.4 is really just good enough, I don't need anything super fancy. Like. I'm happy. But also, Kaldera is pretty flexy, you can just load any extension *you* want! You don't gotta wait on me.
 
 ## Future work
 
-I am still missing descriptor indexing, multiview, VMA bindings and some smaller things (below). I also want Avalonia and OpenXR integration, so I'll be working on all that in the upcoming weeks.
+Speaking of the future, right now I am still missing descriptor indexing, multiview, VMA bindings and some smaller things (below). I also want Avalonia and OpenXR integration, so I'll be working on all that in the upcoming weeks.
 
 The "smaller things" include readback via `DownloadHelper`, I haven't tested mipmapping, and right now there is no G-buffer render target (nor a fragment shading rate attachment). `TextureRenderTarget` only supports one format, even if it can have more than one texture inside. So yeah, this is still very much early.
 
@@ -497,5 +567,7 @@ On that note, I'll probably clean up some of the datatypes, see if it's worth me
 Multi-GPU is a thing for the far future, but it's a curiosity of mine. Might play around with that, but right now it's super far away. It's also pretty niche as not a lot of people have more than one dedicated graphics card, if one at all! Still, it could be useful to speed up baking lighting or stuff like that.
 
 Finally, I'd love to have a nice, proper extension system. Essentially, you'd have NuGet packages that are literally just certain Vulkan extensions. They'd come with some extra types and extension methods for command buffers for example. Ray-tracing and mesh shading pipelines could very well be implemented this way. Very modular, and very plug'n'play.
+
+## In the end
 
 I hope, one day, this will be a small but positive contribution to the world of graphics and C#. Thanks for reading. 🤍
