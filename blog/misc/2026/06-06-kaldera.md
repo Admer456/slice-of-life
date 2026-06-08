@@ -7,7 +7,7 @@ tags: [projects, gpu]
 
 # My lil' Vulkan experiment
 
-*After years on the RHI coast, it was time to go home.*
+*After five years on the RHI coast, it was time to go home...*
 
 First off, here is the repository: https://github.com/Admer456/kaldera
 
@@ -74,7 +74,7 @@ glBegin( GL_TRIANGLES );
 glVertex3f( ... ); // To render meshes, you can imagine
 glVertex3f( ... ); // these vertex3f calls being in a loop
 glVertex3f( ... );
-glEnd();```
+glEnd();
 ```
 
 This here would've been one drawcall. Video cards of the time were designed for it, and as you can see it was heavily CPU-bound. If you wanted to upload texture coordinates, you'd have to call a bunch of `glTexCoord2f` as well.
@@ -355,14 +355,14 @@ Initialisation (abstracted):
 // Instance, device, queue, this gets you all of that
 var graphicsContext = Startup.CreateVulkan14Context( new()
 {
-    ApplicationName = ...;
-    EngineName = ...;
-    InstanceExtensions = ...;
+    ApplicationName = ...,
+    EngineName = ...,
+    InstanceExtensions = ...,
 
 #if DEBUG
-    LogMethod = ...; // Debug logging
+    LogMethod = ..., // Debug logging
     LogLevel = VulkanDebugLogLevel.Error,
-    OptionalLayers = [ LayerNames.KhronosValidation ];
+    OptionalLayers = [ LayerNames.KhronosValidation ]
 #endif
 } );
 ```
