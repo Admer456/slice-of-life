@@ -161,14 +161,16 @@ Shader inputs were described by descriptors. Descriptors were grouped into descr
 
 :::info[Oops!]
 
-You can imagine how much of a pain this would become for shader permutation systems, dynamic material properties and the like. I mean heck, I'm guilty of doing that in my own engine.
+You can imagine how much of a pain this became for shader permutation systems, dynamic material properties and the like. Instead of redesigning their renderers (lots of work, lots of uncertainty!), people just retrofitted modern GAPIs to work with their existing shader systems.
+
+For instance, you could store descriptor sets in a dictionary (of shader permutations) and look it up while rendering. Very costly that is! I mean, heck, I'm [guilty of that](https://elegy.microfox.dev/blog/material-templates) in my own engine.
 
 There's some more info about this in Sebastian Aaltonen's [No Graphics API](https://www.sebastianaaltonen.com/blog/no-graphics-api) and Amini Allight's [vknew](https://amini-allight.org/post/vknew-modern-vulkan-with-descriptor-indexing-dynamic-rendering-and-shader-objects). You'll see a narrative like this more or less everywhere. Oh yeah, a talk from [Vulkanised 2026](https://youtu.be/ebpudnxEw3Y?list=PLMLurvdlOpWNFlPD0kumIYtivIpUx1V0a) also mentions some of these troubles.
 
 :::
 
 
-In a nutshell, Vulkan 1.0 was a huge compromise. It was gonna be this graphics API of the future, yet it also had to support GPUs going a few years back, like the GTX 600 series (2012). And so it came out in 2016, imperfect as it was.
+Vulkan 1.0 was a huge compromise. It was gonna be this graphics API of the future, yet it also had to support older GPUs, like the GTX 600 series (2012). And so it came out in 2016, imperfect as it was.
 
 This brings me to 2026, the "new modern" era. Vulkan 1.4 has so many nice things:
 * dynamic rendering (1.3) - you don't have to build render pass objects any more
@@ -179,7 +181,9 @@ This brings me to 2026, the "new modern" era. Vulkan 1.4 has so many nice things
 * multiview (1.2) - you can easily render to 2 or more framebuffers efficiently from different POVs
 * lots of API restrictions got relaxed and subtle improvements made
 
-Over the years, some pretty interesting techniques have also cropped up. Using an elaborate setup of compute shaders, and indirect (and instanced? :3) rendering, your CPU doesn't need to do almost any work. A mere couple dispatches and drawcalls could render the whole scene. Rendering today can simply boil down to translating your CPU-side representation of a rendering engine into a GPU-side one.
+Over the years, some pretty interesting techniques have also cropped up. Using an elaborate setup of compute shaders, and indirect (and instanced? :3) rendering, your CPU doesn't need to do almost any work.
+
+A mere couple dispatches and drawcalls could render the whole scene. Rendering today can simply boil down to translating your CPU-side representation of a rendering engine into a GPU-side one.
 
 :::info[Hmm...]
 
@@ -191,7 +195,9 @@ What truly excites *me* is that we've almost come full circle. You can now imple
 
 ## The problems I wanna solve
 
-Tired of working with Veldrid's Vulkan 1.0 backend, and wanting to try some Vulkan 1.4 goodies, I went ahead and started building a very thin OOP-ey wrapper for Vulkan. The idea was that the Vulkan instance, physical devices, logical devices and others would be objects with methods, and their `*CreateInfo` structures would also be simplified. So in other words, it was going to be a bit like Vulkan-Hpp, but covering only the parts of Vulkan I deemed important.
+Tired of working with Veldrid's Vulkan 1.0 backend, and wanting to try some Vulkan 1.4 goodies, I started building a very thin OOP-ey wrapper for Vulkan.
+
+The idea was that the Vulkan instance, physical devices, logical devices and others would be objects with methods, and their `*CreateInfo` structures would also be simplified. Same goes for other objects, like command buffers and queues. So in other words, it was going to be a bit like Vulkan-Hpp.
 
 Now, I mentioned a bunch of RHIs and how I was tired of Veldrid's Vulkan insides. Let's talk about some of that.
 
@@ -326,7 +332,7 @@ There are also uniform texel buffers, storage texel buffers, acceleration struct
 
 :::
 
-One alternative here would be to let the programmer check if the GPU supports particular usages/operations on individual formats. That's cool, but it still lets you make mistakes. I am willing to sacrifice a little flexibility for a *great* deal of safety.
+One alternative here would be to let the programmer check if the GPU supports particular usages/operations on individual formats. That's nice, but it still lets you make mistakes. I am willing to sacrifice a little flexibility for a *great* deal of safety.
 
 So, my plan is to download a bunch of GPU profile JSONs from the Vulkan Hardware Database - GTX 1050 Ti to RTX 4060, RX 6600 to RX 9060 XT and the like - and boil down the massive list of formats to different enums for each usecase.
 
@@ -344,7 +350,7 @@ In a lot of these libraries, Vulkan felt like some sort of 2nd-class citizen. NV
 
 In theory, it would've made extensions more difficult too. Not caring about OpenGL, Metal or DirectX 11 though, I only made direct modifications to Veldrid's Vulkan backend. A proper approach would've been something else, implementing features in the common/public API or such. But again, the "deceit" from earlier would've made that less straightforward.
 
-So, yeah. Absolutely none of that here. This is a Vulkan-first library. You are free to e.g. write extension methods for the command buffer. You are free to load any Vulkan device extension you want. You are free to alter feature structs when initialising the Vulkan context. This is really just my vision for a comfy Vulkan.
+So, yeah. Absolutely *none of that* here. This is a Vulkan-first library. You are free to e.g. write extension methods for the command buffer. You are free to load any Vulkan device extension you want. You are free to alter feature structs when initialising the Vulkan context. This is really just my vision for a comfy Vulkan.
 
 ## Examples
 
@@ -456,9 +462,11 @@ Working with textures:
 
 There are "introductory" samples which narrowly focus on specific API functionalities and stuff, there's a self-contained "hello triangle" example, and then there are more high-level examples (model loading, transparency, multithreaded drawcalls...).
 
+More to come, of course. :3
+
 ## Design
 
-There are two layers: the base API and the abstractions. The base API is mostly just Vulkan objects in a thin but comfy wrapper, an allocator abstraction and some basic utilities.
+There are two layers: the base API and the abstractions. The base API is mostly just Vulkan objects in a thin but comfy wrapper, an allocator abstraction and some basic utilities. It's somewhat comparable to Vulkan-Hpp but in C#.
 
 So, the base API has these types, together with their `*Options`:
 * `Instance`
@@ -480,7 +488,7 @@ So, the base API has these types, together with their `*Options`:
 
 You create images and buffers through an `IResourceAllocator`. Memory blocks are not exposed. There are also some startup utilities like `DeviceSelection` and `StructureChain`.
 
-The abstraction layer is there to make life easier when uploading/reading data to/from the GPU, managing resources and the like. You don't have to use it, though.
+The abstraction layer is there to make life easier when uploading to/reading from the GPU, managing resources and the like. You don't have to use it, though.
 
 It has these types:
 * `Texture`
@@ -520,7 +528,7 @@ This custom `Checked()` extension would maybe log to your engine, attach a debug
 
 ### Synchronisation
 
-Synchronisation is simplified to stages and hazards. Render targets will automatically synchronise images, but for most common tasks (compute write then pixel shader read) you gotta place (simplified) barriers.
+Synchronisation has been simplified to stages and hazards. Render targets will automatically synchronise images, but for most common tasks (compute write then pixel shader read) you gotta place (simplified) barriers.
 
 ```cs
 var beforeStage = BarrierStages.Transfer;
@@ -548,26 +556,48 @@ Looking at extensions and future developments, I don't reckon much will change i
 
 I'll still be on a ReBAR-less motherboard, unified image layouts will probably remain nVidia-only, and stuff like descriptor heaps will probably remain an exotic feature, given it released super recently (January 2026).
 
-So, if a Vulkan 1.5 does come out within a year, I'll probably wait for a while. 1.4 is really just good enough, I don't need anything super fancy. Like. I'm happy. But also, Kaldera is pretty flexy, you can just load any extension *you* want! You don't gotta wait on me.
+If a Vulkan 1.5 were to come out, I'd probably wait for a while. 1.4 is just good enough, I'm really happy with it. But also, Kaldera is pretty flexy, you can just load any extension *you* want if you need features! You don't gotta wait on me.
 
 ## Future work
 
 Speaking of the future, right now I am still missing descriptor indexing, multiview, VMA bindings and some smaller things (below). I also want Avalonia and OpenXR integration, so I'll be working on all that in the upcoming weeks.
 
-The "smaller things" include readback via `DownloadHelper`, I haven't tested mipmapping, and right now there is no G-buffer render target (nor a fragment shading rate attachment). `TextureRenderTarget` only supports one format, even if it can have more than one texture inside. So yeah, this is still very much early.
+The "smaller things" include readback via `DownloadHelper`. I haven't tested mipmapping, and right now there is no G-buffer render target, nor a fragment shading rate attachment. So yeah, this is still very much early.
 
-Heck, I don't even know if this will work on Windows or AMD GPUs. I've done everything on my NixOS setup so far, with an RTX 3060. My brother has an RX 6600, so we'll see, I suppose. I ought to clean up my Win10 installation on that 250 GB SSD, too. Now that's the fun part about graphics programming.
+*(I'm not a fan of deferred shading, so G-buffers are a low priority right now, but it's still going to be implemented at some point.)*
 
-Anyway, Slang & SPIR-V utilities would be a plus for some folk, so you could obtain set/binding IDs, for example by name.
+Slang & SPIR-V utilities would be a plus for some folk, so you could obtain set/binding IDs, for example by name. There is also no indirect rendering yet, so there would have to be an `IndirectBuffer` and relevant commands.
 
-Much later, I'd like to explore this one concept further: catching potential runtime errors at compile-time. One thought I had was a code generator that would read a list of GPU profile JSONs and extract lists of formats for different usecases. That way, you download a list of GPUs you want to support, and find what they all have in common. You could also load extensions this way. In general, I'm thinking of some kind of "support validator". We'll see.
+### Compatibility
 
-On that note, I'll probably clean up some of the datatypes, see if it's worth merging `Texture` and `TextureCompressed`. There is also no indirect rendering yet, so there would have to be an `IndirectBuffer` and relevant commands.
+I don't know if the examples will work on Windows or even AMD/Intel GPUs. I've done everything on my NixOS setup so far, with an RTX 3060. My brother has an RX 6600, so we'll see I suppose.
 
-Multi-GPU is a thing for the far future, but it's a curiosity of mine. Might play around with that, but right now it's super far away. It's also pretty niche as not a lot of people have more than one dedicated graphics card, if one at all! Still, it could be useful to speed up baking lighting or stuff like that.
+In the near future, I could probably clean up my [Windows 10 installation on my 250 GB SSD](../2025/10-25-linux.md) and test on that. Now that's the fun part about graphics programming!
 
-Finally, I'd love to have a nice, proper extension system. Essentially, you'd have NuGet packages that are literally just certain Vulkan extensions. They'd come with some extra types and extension methods for command buffers for example. Ray-tracing and mesh shading pipelines could very well be implemented this way. Very modular, and very plug'n'play.
+MacOS though? No idea. I don't have any Apple hardware and I have no experience with MoltenVK or KosmicKrisp as such. You are very much on your own there.
+
+### More safety!!!
+
+Much later, I'd like to explore this one concept further: catching potential runtime errors at compile-time. One thought I had was a code generator that would read a list of GPU profile JSONs and extract lists of formats for different usecases.
+
+That way, you download a list of GPUs you want to support, and find what they all have in common. You could also load extensions this way. In general, I'm thinking of some kind of "support validator". We'll see.
+
+### Multi-GPU and more pipelines
+
+Multi-GPU is a thing for the far future, but it's nonetheless a curiosity of mine. It's pretty niche, most folks don't have more than one dedicated graphics card (me included) and some don't have dedicated graphics at all! Still, it could be useful to speed up baking lighting or stuff like that.
+
+Another far future thing would be mesh shading and ray-tracing pipelines. The latter will require some extra stuff, like building acceleration structures. I guess these will be a thing for Kaldera 2.0. We'll see!
+
+### Addons/extensions
+
+Finally, I'd love to have a nice, proper extension system. Vulkan has an extension system and you can totally just use that. But I want something a little more plug'n'play.
+
+Essentially, you'd have NuGet packages that are literally just certain Vulkan extensions. They'd come with e.g. some extra types and extension methods for command buffers.
+
+Ray-tracing and mesh shading pipelines could very well be implemented this way. Extended Dynamic State 3, `SwapchainRenderTarget` and a few others could totally also be done this way.
 
 ## In the end
 
 I hope, one day, this will be a small but positive contribution to the world of graphics and C#. Thanks for reading. 🤍
+
+*Once again, here is the repository: https://github.com/Admer456/kaldera*
